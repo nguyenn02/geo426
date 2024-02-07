@@ -23,4 +23,13 @@ additional_points <- data.frame(id = 3:5, x = c(9.76,9.77,9.78), y = c(2.47,2.48
 additional_points_sf <- st_as_sf(additional_points, coords = c("x","y"), crs = 4326)
 all_points <-rbind(points, additional_points_sf)
 plot(st_geometry(all_points), col = 'black', pch = 19)
-
+#1.	Determine the mean Per Capita Income in the United States.
+#a.	26093.12 
+#2.	Discuss how altering the number of bins in a histogram affects its representation.
+#a.	The more bins we have, the harder it is to spot the outliers since the histogram will have a bigger spread. It also shows a bigger skew compared to fewer bins therefore it contains more details of the data. 
+#3.	Compare the insights gained from a histogram versus those from a boxplot.
+#a.	The boxplot shows more of the data being outliers but the data is more squashed together so it is harder to accurately display the data.  The histogram shows a bit more of a uniform distribution while the boxplot shows a clear skew with the amount of outliers. 
+#4.	Suggest the most effective transformation for normalizing the Unemployment Rate data.
+#a.	The most effective transformation is to put it into a quantile. The quantile transformation will account for the outliers to make the data the most uniform it can be. 
+#5.	Categorize the spatial dimension that trees occupy.
+#a.	Point 
