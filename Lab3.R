@@ -1,4 +1,4 @@
-####Point,Line,Polygon
+####Point,Line,Polygon####
 # Define points
 point1 <- st_point(c(0, 5))  # Example: a point at (0,0)
 point2 <- st_point(c(15, 6))  # Example: a point at (1,1)
@@ -24,12 +24,12 @@ multilinestring_sfc <- st_sfc(multilinestring1, multilinestring2)
 print(points_sfc)
 print(polygon_sfc)
 print(multilinestring_sfc)
-###Buffer
+###Buffer###
 plot(points_sfc)
 plot(polygon_sfc)
 plot(multilinestring_sfc)
 buffered_sf <- st_buffer(mixed_sf, dist = 0.1)
-###union
+###union####
 union_polygon <- st_union(polygons_sf$geometry)
 
 # Create an sf object for the unioned polygon
@@ -63,7 +63,7 @@ install.packages("rgdal")
 install.packages("raster")
 install.packages("rgdal")
 library(raster)
-####JPEG
+####JPEG####
 
 set.seed(123) # For reproducibility
 layer1 <- raster(nrows=10, ncols=10, xmn=0, xmx=10, ymn=0, ymx=10)
@@ -84,7 +84,7 @@ dev.off()
 library(raster)
 library(ggplot2)
 set.seed(42)
-####tree
+####tree####
 canopy_height <- raster(nrow=100, ncol=100, xmn=0, xmx=100, ymn=0, ymx=100)
 values(canopy_height) <- runif(ncell(canopy_height), min=0, max=30) # Heights between 0 and 30 meters
 plot(canopy_height, main="Simulated Tree Canopy Height", xlab="Meters", ylab="Meters", col=terrain.colors(256))
