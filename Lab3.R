@@ -1,3 +1,4 @@
+####Point,Line,Polygon
 # Define points
 point1 <- st_point(c(0, 5))  # Example: a point at (0,0)
 point2 <- st_point(c(15, 6))  # Example: a point at (1,1)
@@ -23,11 +24,12 @@ multilinestring_sfc <- st_sfc(multilinestring1, multilinestring2)
 print(points_sfc)
 print(polygon_sfc)
 print(multilinestring_sfc)
-
+###Buffer
 plot(points_sfc)
 plot(polygon_sfc)
 plot(multilinestring_sfc)
 buffered_sf <- st_buffer(mixed_sf, dist = 0.1)
+###union
 union_polygon <- st_union(polygons_sf$geometry)
 
 # Create an sf object for the unioned polygon
@@ -61,6 +63,8 @@ install.packages("rgdal")
 install.packages("raster")
 install.packages("rgdal")
 library(raster)
+####JPEG
+
 set.seed(123) # For reproducibility
 layer1 <- raster(nrows=10, ncols=10, xmn=0, xmx=10, ymn=0, ymx=10)
 layer2 <- raster(nrows=10, ncols=10, xmn=0, xmx=10, ymn=0, ymx=10)
@@ -70,10 +74,8 @@ values(layer2) <- runif(ncell(layer2)) * 255
 values(layer3) <- runif(ncell(layer3)) * 255
 raster_stack <- stack(layer1, layer2, layer3)
 output_jpg <- "raster_output.jpg"
-
 # Use plot to visualize (optional, mainly for checking)
 plot(raster_stack[[1]])
-
 # Save the plot or raster as a JPG
 # There's no direct function in raster or sf to save as JPG, so use jpeg() from the grDevices package
 jpeg(filename=output_jpg, width=800, height=600)
@@ -82,7 +84,7 @@ dev.off()
 library(raster)
 library(ggplot2)
 set.seed(42)
-#tree
+####tree
 canopy_height <- raster(nrow=100, ncol=100, xmn=0, xmx=100, ymn=0, ymx=100)
 values(canopy_height) <- runif(ncell(canopy_height), min=0, max=30) # Heights between 0 and 30 meters
 plot(canopy_height, main="Simulated Tree Canopy Height", xlab="Meters", ylab="Meters", col=terrain.colors(256))
@@ -93,6 +95,7 @@ ggplot(canopy_df, aes(x=Longitude, y=Latitude, fill=Height)) +
   scale_fill_gradientn(colors=terrain.colors(256)) +
   labs(title="Tree Canopy Height", x="Meters", y="Meters", fill="Height (m)") +
   theme_minimal()
+####Mariage###
 mi_counties <- st_read("/Users/nhutnguyen/Desktop/geo426/geo426/mi_counties 2")
 library(sf)
 shapefile_path <- "/Users/nhutnguyen/Desktop/geo426/geo426/Counties_(v17a).shp"
