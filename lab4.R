@@ -76,8 +76,9 @@ plot(st_geometry(concave_hull_polygon), col = 'pink', border = 'purple', lwd = 2
 #4.	How is simplifying line data different from smoothing the line data?
 #Simplifying line data reduces the details and size which makes it less clutter to look at while
 # smoothing is removing jagged edges for visual clarity 
- 
+
 # 5.	When we are aggregating point to polygons in what situation do you want to use a concave approach? A convex approach?
 #The choice between concave or convex depends on what accuracy you want to display in representation
 #of the shape distribution and simplicity. Concave is used for detailed and more accurate shapes while
 #convex is used for broad and simplier views.
+
