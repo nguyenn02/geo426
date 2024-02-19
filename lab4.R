@@ -81,3 +81,4 @@ plot(st_geometry(concave_hull_polygon), col = 'pink', border = 'purple', lwd = 2
 #The choice between concave or convex depends on what accuracy you want to display in representation
 #of the shape distribution and simplicity. Concave is used for detailed and more accurate shapes while
 #convex is used for broad and simplier views.
+
