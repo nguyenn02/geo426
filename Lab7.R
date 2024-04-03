@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> 644ed10548bfb0d980cfab63e84be575bf39bac1
 library(sf)
 library(gstat)
 library(sp)
 library(raster)
-<<<<<<< HEAD
-
-=======
 library(ggplot2)
->>>>>>> 644ed10548bfb0d980cfab63e84be575bf39bac1
 # Load the point data from a GeoPackage
 vancouver_data <- st_read("/Users/nhutnguyen/Downloads/Vancouver_Cen2021 (2).gpkg")
 
@@ -48,14 +41,9 @@ ggplot(data = idw_sf) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 clipped_idw <- st_intersection(idw_sf, vancouver_data) #this might take a minute to run
-<<<<<<< HEAD
-#####Questions####
-#################
-=======
 
 #####Questions####
 ########gi#########
->>>>>>> 644ed10548bfb0d980cfab63e84be575bf39bac1
 #1. IDW assumes that the variable of interest decreases in influence as the distance increases from its measurement location.
 #It also uses a fixed math formula to calculate unknown points using weighted averages of the values of the nearest points 
 #While Kriging takes in account spatial correlation to estimate variable values which is more statistics based. provides estimates by weighting
