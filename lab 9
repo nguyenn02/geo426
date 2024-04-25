@@ -1,0 +1,95 @@
+library(shiny)
+library(leaflet)
+library(rnaturalearth)
+library(sf)
+library(dplyr)
+library(RColorBrewer)
+
+# Load world data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Simulate median age data
+set.seed(42)  # Ensure reproducibility
+world$median_age <- runif(nrow(world), 15, 75)  # Random median ages between 15 and 75
+
+# Load COVID data
+covid <- read.csv("/Users/nhutnguyen/Desktop/geo426/Lab 13/owid-covid-data.csv")
+
+# Aggregate and prepare COVID data
+covid <- covid %>%
+  group_by(location) %>%
+  summarise(total_cases = sum(new_cases, na.rm = TRUE)) %>%
+  left_join(covid %>% 
+              select(population, location) %>% 
+              distinct(), by = "location") %>%
+  mutate(
+    covid_cases_per_10000_ppl = total_cases / (population / 10000),
+    location = case_when(
+      location == "United States" ~ "United States of America",
+      location == "Czechia" ~ "Czech Republic",
+      location == "Congo" ~ "Republic of Congo",
+      location == "Democratic Republic of Congo" ~ "Democratic Republic of the Congo",
+      location == "Bahamas" ~ "The Bahamas",
+      location == "North Macedonia" ~ "Macedonia",
+      location == "Cote d'Ivoire" ~ "Ivory Coast",
+      location == "Eswatini" ~ "Swaziland",
+      location == "Timor" ~ "East Timor",
+      location == "Tanzania" ~ "United Republic of Tanzania",
+      location == "Serbia" ~ "Republic of Serbia",
+      location == "Congo" ~ "Republic of Congo",
+      TRUE ~ location
+    )
+  ) %>%
+  data.frame()
+
+# Merge COVID data with world data
+world <- world %>%
+  left_join(covid, by = c("sovereignt" = "location"))
+
+# Define the user interface (UI) of the Shiny app
+ui <- fluidPage(
+  titlePanel("Interactive Choropleth Map"),  # Title of the app
+  sidebarLayout(
+    sidebarPanel(  # Define the sidebar with input controls
+      selectInput("variable", "Variable:",  # Dropdown to select the variable to display on the map
+                  choices = c(
+                    "Total Cases" = "total_cases",
+                    "Population" = "population",
+                    "COVID Cases per 10000 People" = "covid_cases_per_10000_ppl",
+                    "Median Age" = "median_age")),
+      selectInput("palette", "Color Palette:",  # Dropdown to select the color palette for the map
+                  choices = rownames(brewer.pal.info)),
+      sliderInput("classes", "Number of Classes:", min = 3, max = 9, value = 7)  # Slider to select the number of color classes
+    ),
+    mainPanel(  # Main panel to display the map
+      leafletOutput("map")  # Output for the leaflet map
+    )
+  )
+)
+
+# Define the server logic of the Shiny app
+server <- function(input, output) {
+  output$map <- renderLeaflet({
+    color_pal <- colorQuantile(input$palette, world[[input$variable]], n = input$classes, na.color = "#ffffff")  # Create a color palette
+    leaflet(world) %>%
+      addProviderTiles(providers$CartoDB.Positron) %>%
+      addPolygons(
+        fillColor = ~color_pal(world[[input$variable]]),
+        fillOpacity = 0.8,
+        color = "#BDBDC3",
+        weight = 1,
+        popup = ~paste(name, "<br>", input$variable, ":", round(world[[input$variable]], 2))
+      ) %>%
+      addLegend(pal = color_pal, values = ~world[[input$variable]], opacity = 0.7, title = input$variable)
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+#Question 1
+#UI element: responsible for defining the layout and appearance of the app and it dictates what the the user sees and interacts
+#Server element: contains the instructions for what the app should do. Handles processing of users inputs, computations and sends output back to UI
+#The server is the back-end of the app while the UI is the frint-end users interact with
+#Question 2
+#Advantages: Enhanced user enagagement: interactive maps and tailored information dispaly
+Disadvantages: complex and can be resource intensive 
